@@ -59,10 +59,55 @@ void LinkedList::Push_back(int x){
 	current->next = newNode;
 }
 
+void LinkedList::Push_front(int x){
+	ListNode *newNode = new ListNode(x);
+
+	if(first == 0){
+		first = newNode;
+		return;
+	}
+	
+	newNode->next = first;
+	first = newNode;	
+}
+
+void LinkedList::Delete(int x){ //to delete the element x in the LinkedList (just delete one that element)
+	
+	ListNode *current = first;
+	ListNode *previous = 0;
+
+	//Three situations
+	//1. No element
+	//2. Yes element -> Will be an empty LinkedList after the deletion
+	//3. Yes element -> Will not be an empty LinkedList after the deletion
+	
+	while(current != 0 && current->data != x){
+		previous = current;
+		current = current->next;
+	}
+	
+	if(current == 0){
+		cout << "There isn't such element in the LinkedList" << endl;
+	}
+	else if(current == first){
+		first = current->next;
+		delete current;
+		current = 0; // in case there may be error happens
+	}
+	else{
+		previous->next = current->next;
+		delete current;
+		current = 0;
+	}
+}
+
 int main(){
 	LinkedList list;
 	list.Push_back(5);
 	list.Push_back(4);
+	list.Push_front(3);
+	list.Push_front(2);
+	list.Delete(3);
 	list.PrintList();
 
 	return 0;
